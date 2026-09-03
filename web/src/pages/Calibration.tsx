@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api, type Calibration, type CaseResult, type JudgeStatus, type Run } from "../api";
+import { STATUS_LABEL, pct, shortId } from "../copy";
+import { PageHead } from "../Layout";
 
 export default function CalibrationPage() {
   const { id } = useParams();
@@ -19,28 +21,35 @@ export default function CalibrationPage() {
       if (rs[0]) setRid(rs[0].id);
     });
   }, [id]);
-
   useEffect(() => {
     if (!rid) return;
     api.runCases(rid).then(setCases);
   }, [rid]);
 
   const confusion = cal?.confusion || status?.calibration?.confusion;
+  const st = status?.status || "not_calibrated";
 
   return (
     <div>
-      <h1>校准</h1>
+      <PageHead
+        kicker="人工复核"
+        title="机器打分准不准？"
+        lead="抽若干题，你按「过关 / 不过关」标一遍。对得够多，才能把自动分数当成门槛。建议至少标 20 题。"
+      />
       <div className="card">
         <p>
-          status：<b>{status?.status || "not_calibrated"}</b>
+          当前校准 status：<b>{STATUS_LABEL[st] || st}</b>
+        </p>
+        <p className="hint">
+          未校准也能看成绩，但不能把自动分数当成「必须过关」的闸门。
         </p>
         <div className="row">
           <label>
-            Run
+            核对哪一轮
             <select value={rid} onChange={(e) => setRid(e.target.value)}>
               {runs.map((r) => (
                 <option key={r.id} value={r.id}>
-                  {r.id.slice(0, 8)} {r.status}
+                  {shortId(r.id)} · {STATUS_LABEL[r.status] || r.status}
                 </option>
               ))}
             </select>
@@ -58,19 +67,20 @@ export default function CalibrationPage() {
               }
             }}
           >
-            计算校准
+            用已标的题计算校准
           </button>
         </div>
       </div>
       <div className="card">
         <h2>人工标 Pass/Fail</h2>
+        <p className="hint">过关 = 你认为这题系统表现合格。先标，再点上面的计算。</p>
         <table>
           <thead>
             <tr>
-              <th>case</th>
-              <th>judge</th>
-              <th>human</th>
-              <th>原因</th>
+              <th>题号</th>
+              <th>机器</th>
+              <th>你的判断</th>
+              <th>备注</th>
               <th></th>
             </tr>
           </thead>
@@ -78,7 +88,9 @@ export default function CalibrationPage() {
             {cases.map((c) => (
               <tr key={c.case_id}>
                 <td>{c.case_id}</td>
-                <td className={c.judge_label === "pass" ? "ok" : "bad"}>{c.judge_label}</td>
+                <td className={c.judge_label === "pass" ? "ok" : "bad"}>
+                  {c.judge_label === "pass" ? "过关" : "不过关"}
+                </td>
                 <td>
                   <select
                     value={c.human_label || ""}
@@ -89,8 +101,8 @@ export default function CalibrationPage() {
                     }
                   >
                     <option value="">未标</option>
-                    <option value="pass">pass</option>
-                    <option value="fail">fail</option>
+                    <option value="pass">过关</option>
+                    <option value="fail">不过关</option>
                   </select>
                 </td>
                 <td>
@@ -112,10 +124,10 @@ export default function CalibrationPage() {
                         human_label: c.human_label,
                         human_reason: c.human_reason || "",
                       });
-                      setMsg(`已标注 ${c.case_id}`);
+                      setMsg(`已保存人工标 ${c.case_id}`);
                     }}
                   >
-                    保存人工标
+                    保存
                   </button>
                 </td>
               </tr>
@@ -125,23 +137,24 @@ export default function CalibrationPage() {
       </div>
       <div className="card">
         <h2>混淆矩阵</h2>
+        <p className="hint">看机器和你是不是经常意见一致。右上角是「机器放过、你认为不行」——假过关，最危险。</p>
         {confusion ? (
           <table>
             <thead>
               <tr>
                 <th></th>
-                <th>human pass</th>
-                <th>human fail</th>
+                <th>你认为过关</th>
+                <th>你认为不过关</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>judge pass</td>
-                <td>{confusion.tp}</td>
-                <td>{confusion.fp}</td>
+                <td>机器判过关</td>
+                <td className="ok">{confusion.tp}</td>
+                <td className="bad">{confusion.fp}</td>
               </tr>
               <tr>
-                <td>judge fail</td>
+                <td>机器判不过关</td>
                 <td>{confusion.fn}</td>
                 <td>{confusion.tn}</td>
               </tr>
@@ -151,11 +164,10 @@ export default function CalibrationPage() {
           <p className="muted">先完成人工标再计算校准。</p>
         )}
         {(cal || status?.calibration) && (
-          <p>
-            n={(cal || status?.calibration)?.n} accuracy=
-            {(cal || status?.calibration)?.accuracy} FPR=
-            {(cal || status?.calibration)?.false_pass_rate} FNR=
-            {(cal || status?.calibration)?.false_fail_rate}
+          <p className="hint">
+            共核对 {(cal || status?.calibration)?.n} 题，一致率{" "}
+            {pct((cal || status?.calibration)?.accuracy || 0)}，假过关率{" "}
+            {pct((cal || status?.calibration)?.false_pass_rate || 0)}。
           </p>
         )}
       </div>

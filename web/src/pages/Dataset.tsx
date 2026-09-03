@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { api, type Dataset, type EvalCase, type Version } from "../api";
+import { BEHAVE_LABEL, TYPE_LABEL } from "../copy";
+import { PageHead } from "../Layout";
 
 const emptyCase = (): EvalCase => ({
   case_id: "",
@@ -20,7 +22,7 @@ export default function DatasetPage() {
   const [versions, setVersions] = useState<Version[]>([]);
   const [vid, setVid] = useState("");
   const [cases, setCases] = useState<EvalCase[]>([]);
-  const [hints, setHints] = useState("总部在哪里");
+  const [hints, setHints] = useState("什么是 RAG");
   const [msg, setMsg] = useState("");
   const [name, setName] = useState("gold");
 
@@ -33,7 +35,6 @@ export default function DatasetPage() {
   useEffect(() => {
     loadDs().catch((e) => setMsg(String(e)));
   }, [id]);
-
   useEffect(() => {
     if (!dsId) return;
     api.listVersions(dsId).then((vs) => {
@@ -41,120 +42,163 @@ export default function DatasetPage() {
       if (vs[0]) setVid(vs[0].id);
     });
   }, [dsId]);
-
   useEffect(() => {
     if (!vid) return;
     api.listCases(vid).then(setCases).catch((e) => setMsg(String(e)));
   }, [vid]);
 
   const current = versions.find((v) => v.id === vid);
+  const n = cases.length;
+  const counts = {
+    a: cases.filter((c) => c.case_type === "answerable").length,
+    u: cases.filter((c) => c.case_type === "unanswerable").length,
+    m: cases.filter((c) => c.case_type === "ambiguous").length,
+  };
 
-  async function save() {
-    if (!vid) return;
-    await api.upsertCases(vid, cases);
-    setMsg("已保存编辑");
-  }
   return (
     <div>
-      <h1>数据集</h1>
-      <div className="card row">
-        <label>
-          新建名称
-          <input value={name} onChange={(e) => setName(e.target.value)} />
-        </label>
-        <button
-          onClick={async () => {
-            if (!id) return;
-            await api.createDataset(id, { kind: "gold", name });
-            await loadDs();
-          }}
-        >
-          创建数据集
-        </button>
-        <label>
-          数据集
-          <select value={dsId} onChange={(e) => setDsId(e.target.value)}>
-            {datasets.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.name} ({d.kind})
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Version
-          <select value={vid} onChange={(e) => setVid(e.target.value)}>
-            {versions.map((v) => (
-              <option key={v.id} value={v.id}>
-                v{v.version} {v.confirmed_at ? "已确认" : "草稿"} n={v.case_count}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-      <div className="card row">
-        <label>
-          Generate hints
-          <input value={hints} onChange={(e) => setHints(e.target.value)} />
-        </label>
-        <button
-          className="secondary"
-          onClick={async () => {
-            const drafted = await api.generate(vid, hints.split(/[,，]/).map((s) => s.trim()).filter(Boolean));
-            setCases(drafted);
-          }}
-        >
-          Generate
-        </button>
-        <button className="ghost" onClick={save}>
-          编辑保存
-        </button>
-        <button
-          onClick={async () => {
-            try {
-              const v = await api.confirm(vid);
-              setMsg(`Confirm 成功 hash=${v.hash}`);
-              const vs = await api.listVersions(dsId);
-              setVersions(vs);
-            } catch (e) {
-              setMsg(String(e));
-            }
-          }}
-        >
-          Confirm
-        </button>
-        <button
-          className="secondary"
-          onClick={async () => {
-            try {
-              const v = await api.sampleCalibration(vid);
-              setMsg(`抽校准集完成 n=${v.case_count}`);
-              await loadDs();
-            } catch (e) {
-              setMsg(String(e));
-            }
-          }}
-        >
-          抽校准集
-        </button>
-        {current?.confirmed_at && <span className="ok">已 Confirm</span>}
+      <PageHead
+        kicker="② 准备题目"
+        title="用同一套考题衡量系统"
+        lead="题目要覆盖三种情况：资料里有答案、资料里没有该拒绝、问法含糊该追问。建议 50–100 题。点 Confirm 锁定后才能开考。"
+      />
+      <div className="grid" style={{ marginBottom: 16 }}>
+        <div className="metric">
+          <span>题目总数</span>
+          <b>{n}</b>
+          <small>{n < 50 ? "偏少，判断会飘" : n <= 100 ? "规模合适" : "可以再精炼"}</small>
+        </div>
+        <div className="metric">
+          <span>资料里有答案</span>
+          <b>{counts.a}</b>
+        </div>
+        <div className="metric">
+          <span>该拒绝</span>
+          <b>{counts.u}</b>
+        </div>
+        <div className="metric">
+          <span>该追问</span>
+          <b>{counts.m}</b>
+        </div>
       </div>
       <div className="card">
-        <button
-          className="ghost"
-          onClick={() => setCases((cs) => [...cs, emptyCase()])}
-        >
-          新增 case
-        </button>
+        <div className="row">
+          <label>
+            题库名称
+            <input value={name} onChange={(e) => setName(e.target.value)} />
+          </label>
+          <button
+            className="ghost"
+            onClick={async () => {
+              if (!id) return;
+              await api.createDataset(id, { kind: "gold", name });
+              await loadDs();
+            }}
+          >
+            新建题库
+          </button>
+          <label>
+            当前题库
+            <select value={dsId} onChange={(e) => setDsId(e.target.value)}>
+              {datasets.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}（{TYPE_LABEL[d.kind] || d.kind}）
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            版本
+            <select value={vid} onChange={(e) => setVid(e.target.value)}>
+              {versions.map((v) => (
+                <option key={v.id} value={v.id}>
+                  第 {v.version} 版 {v.confirmed_at ? "已锁定" : "草稿"} · {v.case_count} 题
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </div>
+      <div className="card">
+        <div className="row">
+          <label>
+            Generate 出题提示
+            <input value={hints} onChange={(e) => setHints(e.target.value)} />
+          </label>
+          <button
+            className="secondary"
+            onClick={async () => {
+              const drafted = await api.generate(
+                vid,
+                hints.split(/[,，]/).map((s) => s.trim()).filter(Boolean)
+              );
+              setCases(drafted);
+            }}
+          >
+            Generate
+          </button>
+          <button
+            className="ghost"
+            onClick={async () => {
+              if (!vid) return;
+              await api.upsertCases(vid, cases);
+              setMsg("已保存编辑");
+            }}
+          >
+            编辑保存
+          </button>
+          <button
+            onClick={async () => {
+              try {
+                const v = await api.confirm(vid);
+                setMsg(`Confirm 成功，这套题已锁定，可以去开考。hash=${v.hash.slice(0, 8)}`);
+                const vs = await api.listVersions(dsId);
+                setVersions(vs);
+              } catch (e) {
+                setMsg(String(e));
+              }
+            }}
+          >
+            Confirm
+          </button>
+          <button
+            className="ghost"
+            onClick={async () => {
+              try {
+                const v = await api.sampleCalibration(vid);
+                setMsg(`抽校准集完成，抽了 ${v.case_count} 题给人核对。`);
+                await loadDs();
+              } catch (e) {
+                setMsg(String(e));
+              }
+            }}
+          >
+            抽校准集
+          </button>
+          {current?.confirmed_at && <span className="chip ok">已 Confirm，可开考</span>}
+        </div>
+        <p className="hint">BaGuLLM 正式考题请用命令 python -m api.seed_bagullm 写入 85 道库内真题。</p>
+      </div>
+      <div className="card">
+        <div className="row" style={{ marginBottom: 8 }}>
+          <button className="ghost" onClick={() => setCases((cs) => [...cs, emptyCase()])}>
+            新增一题
+          </button>
+          {id && (
+            <Link to={`/projects/${id}/runs`}>
+              <button disabled={!current?.confirmed_at}>去开考</button>
+            </Link>
+          )}
+        </div>
         <table>
           <thead>
             <tr>
-              <th>case_id</th>
-              <th>query</th>
-              <th>type</th>
-              <th>behavior</th>
-              <th>expected_answer</th>
-              <th>source</th>
+              <th>编号</th>
+              <th>问题</th>
+              <th>题型</th>
+              <th>期望表现</th>
+              <th>标准答案要点</th>
+              <th>应命中文档</th>
             </tr>
           </thead>
           <tbody>
@@ -183,9 +227,9 @@ export default function DatasetPage() {
                       setCases((cs) => cs.map((x, j) => (j === i ? { ...x, case_type: e.target.value } : x)))
                     }
                   >
-                    <option>answerable</option>
-                    <option>unanswerable</option>
-                    <option>ambiguous</option>
+                    <option value="answerable">{TYPE_LABEL.answerable}</option>
+                    <option value="unanswerable">{TYPE_LABEL.unanswerable}</option>
+                    <option value="ambiguous">{TYPE_LABEL.ambiguous}</option>
                   </select>
                 </td>
                 <td>
@@ -197,9 +241,9 @@ export default function DatasetPage() {
                       )
                     }
                   >
-                    <option>answer</option>
-                    <option>refuse</option>
-                    <option>clarify</option>
+                    <option value="answer">{BEHAVE_LABEL.answer}</option>
+                    <option value="refuse">{BEHAVE_LABEL.refuse}</option>
+                    <option value="clarify">{BEHAVE_LABEL.clarify}</option>
                   </select>
                 </td>
                 <td>
@@ -219,7 +263,10 @@ export default function DatasetPage() {
                       setCases((cs) =>
                         cs.map((x, j) =>
                           j === i
-                            ? { ...x, expected_source: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) }
+                            ? {
+                                ...x,
+                                expected_source: e.target.value.split(",").map((s) => s.trim()).filter(Boolean),
+                              }
                             : x
                         )
                       )

@@ -1,0 +1,1727 @@
+[
+  {
+    "case_id": "bagu-a-01",
+    "query": "什么是 RAG？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "检索增强生成",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "Retrieval-Augmented Generation"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-02",
+    "query": "RAG 的核心逻辑分成哪两步？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "先从资料库中检索相关内容，再基于这些内容生成答案",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "先从资料库中检索相关内容"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-03",
+    "query": "RAG 离线阶段的分块是做什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "将完整的文档切分为多个小片段",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "将完整的文档切分为多个小片段"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-04",
+    "query": "什么是向量数据库？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "专门用来 存储 和 检索「向量」的数据库",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "专门用来 存储 和 检索「向量」的数据库"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-05",
+    "query": "工业默认的向量索引是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "HNSW",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "Hierarchical Navigable Small World"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-06",
+    "query": "Chroma 适合用在什么阶段？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "仅做开发验证，不适合生产",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "仅做开发验证，不适合生产"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-07",
+    "query": "在线阶段 Query 预处理（Rewrite）是做什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "把口语化的问题转成适合检索的形式",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "把口语化的问题转成适合检索的形式"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-08",
+    "query": "什么是 Rerank？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "Rerank",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "什么是 Rerank"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-09",
+    "query": "如何规避 RAG 中的幻觉？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "只能使用知识库中的知识回答",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "强制 Prompt 约束"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-10",
+    "query": "为什么 Claude Code 不用 RAG 检索代码，而是用 grep？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "代码需要精确查找",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "代码需要精确查找"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-11",
+    "query": "RAG 解决的知识冻结问题是什么意思？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "LLM 只知道训练时的知识",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "只知道训练时的知识"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-12",
+    "query": "为什么需要分块？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "向量模型有输入长度限制",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "向量模型有输入长度限制"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-13",
+    "query": "分块重叠量通常设为多少？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "10%～20%",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "重叠量通常设为 chunk_size 的 10%"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-14",
+    "query": "模型微调和 RAG 的区别里，模型微调是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "通过已有数据集模仿学习",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "通过已有数据集模仿学习"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-15",
+    "query": "多路召回结果合并常用什么方法？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "RFF",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "k 是平滑参数（通常取 60）"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-16",
+    "query": "稠密检索在 RAG 里的定位是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "召回的基础检索方式",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "RAG 召回的基础检索方式"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-17",
+    "query": "稀疏检索在 RAG 里的定位是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "辅助检索方式",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "辅助检索方式"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-18",
+    "query": "资料里 Agent 的组成公式是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "LLM + 记忆 + 规划 + 工具使用",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "记忆 + 规划 + 工具使用"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-19",
+    "query": "资料里 Cursor 被归为什么类型的 Agent？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "编程类 Agent",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "Cursor：编程类 Agent"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-20",
+    "query": "Manus 被归为什么类型的 Agent？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "搜索类 Agent",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "Manus：搜索类 Agent"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-21",
+    "query": "ReAct 范式在 CoT 基础上加了什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "行动",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "在 CoT 基础上加了「行动」"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-22",
+    "query": "Plan-and-Execute 范式先做什么再做什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "先整体规划再逐一执行",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "先整体规划再逐一执行"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-23",
+    "query": "简单任务、需要灵活调整该选哪种范式？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "ReAct",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "直接用 ReAct"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-24",
+    "query": "如何减少幻觉的来源锚定指什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "RAG 注入事实",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "RAG 注入事实"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-25",
+    "query": "时间窗口观测里，网络抖动通常是什么量级？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "秒级",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "网络抖动通常是短暂的（秒级）"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-26",
+    "query": "Agent 模式和 Workflow 模式的决策有何不同？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "决策由 Agent 自主决定",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [
+      "决策由 Agent 自主决定"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-27",
+    "query": "什么是 Token？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "大模型处理文本的最小单位",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "大模型处理文本的最小单位"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-28",
+    "query": "资料里 LLM 的底层架构是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "Transformer",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "基于 Transformer"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-29",
+    "query": "LLM 全称是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "Large Language Model",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "Large Language Model"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-30",
+    "query": "Prompt 是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "给大模型的问题或指令",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "给大模型的问题或指令"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-31",
+    "query": "MCP 全称是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "Model Context Protocol",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "Model Context Protocol"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-32",
+    "query": "MCP 是用来解决什么问题的？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "不同平台工具接入规范不统一",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "工具接入的统一标准"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-33",
+    "query": "Agent Skill 是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "给 Agent 的说明文档",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "给 Agent 的说明文档"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "agent"
+    ]
+  },
+  {
+    "case_id": "bagu-a-34",
+    "query": "Context 指什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "模型当前处理任务时记忆的全部内容",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "模型当前处理任务时记忆的全部内容"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-35",
+    "query": "Tool 的定义是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "大模型调用的外部函数",
+    "expected_source": [
+      "基本概念.md"
+    ],
+    "supporting_passage": [
+      "大模型调用的外部函数"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "基本概念.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-36",
+    "query": "Flash/Turbo 这类模型适合什么场景？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "高并发或实时",
+    "expected_source": [
+      "LLM.md"
+    ],
+    "supporting_passage": [
+      "适合高并发或实时场景"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "LLM.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-37",
+    "query": "资料里 Base 模型通常是什么定位？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "基础原始模型",
+    "expected_source": [
+      "LLM.md"
+    ],
+    "supporting_passage": [
+      "基础原始模型"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "LLM.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-38",
+    "query": "SFT 被比喻成什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "抄标准答案",
+    "expected_source": [
+      "LLM.md"
+    ],
+    "supporting_passage": [
+      "抄标准答案"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "LLM.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-39",
+    "query": "Reward Model 被说成什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "人类偏见的压缩文件",
+    "expected_source": [
+      "LLM.md"
+    ],
+    "supporting_passage": [
+      "人类偏见的压缩文件"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "LLM.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "llm"
+    ]
+  },
+  {
+    "case_id": "bagu-a-40",
+    "query": "MCP 协议的消息格式是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "JSON-RPC 2.0",
+    "expected_source": [
+      "MCP.md"
+    ],
+    "supporting_passage": [
+      "JSON-RPC 2.0"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "MCP.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-41",
+    "query": "MCP 本地传输方式是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "stdio",
+    "expected_source": [
+      "MCP.md"
+    ],
+    "supporting_passage": [
+      "通过操作系统的管道（stdin/stdout）"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "MCP.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-42",
+    "query": "MCP Host 是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "AI 应用本身",
+    "expected_source": [
+      "MCP.md"
+    ],
+    "supporting_passage": [
+      "MCP Host 是 AI 应用本身"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "MCP.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-43",
+    "query": "MCP 协议是谁和谁的通信标准？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "MCP Client 和 MCP Server",
+    "expected_source": [
+      "MCP.md"
+    ],
+    "supporting_passage": [
+      "MCP Client 和 MCP Server 的通信标准"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "MCP.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-44",
+    "query": "短期记忆存哪里？资料怎么说的？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "Redis",
+    "expected_source": [
+      "Memory.md"
+    ],
+    "supporting_passage": [
+      "内存高效读写（Redis）"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Memory.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "memory"
+    ]
+  },
+  {
+    "case_id": "bagu-a-45",
+    "query": "什么是 Prompt Cache？大模型处理请求分哪两个阶段？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "Prefill",
+    "expected_source": [
+      "Memory.md"
+    ],
+    "supporting_passage": [
+      "Prefill（预填充，处理 Prompt） 和 Decode"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Memory.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "memory"
+    ]
+  },
+  {
+    "case_id": "bagu-a-46",
+    "query": "Mem0 的设计哲学是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "即插即用、独立的记忆管理服务层",
+    "expected_source": [
+      "Memory.md"
+    ],
+    "supporting_passage": [
+      "即插即用、独立的记忆管理服务层"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Memory.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "memory"
+    ]
+  },
+  {
+    "case_id": "bagu-a-47",
+    "query": "Letta 原名是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "MemGPT",
+    "expected_source": [
+      "Memory.md"
+    ],
+    "supporting_passage": [
+      "原 MemGPT"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Memory.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "memory"
+    ]
+  },
+  {
+    "case_id": "bagu-a-48",
+    "query": "达到 Context Window 上限怎么办？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "滑动窗口",
+    "expected_source": [
+      "Memory.md"
+    ],
+    "supporting_passage": [
+      "只保留最近 N 轮"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Memory.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "memory"
+    ]
+  },
+  {
+    "case_id": "bagu-a-49",
+    "query": "上下文优先级 P0 是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "System Prompt",
+    "expected_source": [
+      "Memory.md"
+    ],
+    "supporting_passage": [
+      "P0：System Prompt"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Memory.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "memory"
+    ]
+  },
+  {
+    "case_id": "bagu-a-50",
+    "query": "如何判断做成单 Agent 还是多 Agent 时，上下文隔离指什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "复杂任务可能超过上下文窗口限制",
+    "expected_source": [
+      "Multi-Agent.md"
+    ],
+    "supporting_passage": [
+      "超过上下文窗口限制"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Multi-Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "multi"
+    ]
+  },
+  {
+    "case_id": "bagu-a-51",
+    "query": "多 Agent 上下文管理原则「传结论不传过程」是什么意思？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "共享的是结构化结论，不是原始推理链",
+    "expected_source": [
+      "Multi-Agent.md"
+    ],
+    "supporting_passage": [
+      "结构化结论，不是原始推理链"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Multi-Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "multi"
+    ]
+  },
+  {
+    "case_id": "bagu-a-52",
+    "query": "Google A2A 旨在解决什么问题？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "异构 Agent 系统的互操作性",
+    "expected_source": [
+      "Multi-Agent.md"
+    ],
+    "supporting_passage": [
+      "异构 Agent 系统的互操作性"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Multi-Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "multi"
+    ]
+  },
+  {
+    "case_id": "bagu-a-53",
+    "query": "中心化模式由谁分配任务？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "Orchestrator",
+    "expected_source": [
+      "Multi-Agent.md"
+    ],
+    "supporting_passage": [
+      "Orchestrator 负责分配任务"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Multi-Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "multi"
+    ]
+  },
+  {
+    "case_id": "bagu-a-54",
+    "query": "分治模式的优点之一是什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "任务完成质量更高",
+    "expected_source": [
+      "Multi-Agent.md"
+    ],
+    "supporting_passage": [
+      "任务完成质量更高"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Multi-Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "multi"
+    ]
+  },
+  {
+    "case_id": "bagu-a-55",
+    "query": "LangGraph 的通信本质上是什么的传递？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "状态",
+    "expected_source": [
+      "Multi-Agent.md"
+    ],
+    "supporting_passage": [
+      "状态（State）的传递与更新"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Multi-Agent.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "multi"
+    ]
+  },
+  {
+    "case_id": "bagu-a-56",
+    "query": "清洗流水线里的归一化包括什么？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "统一编码、全角/半角",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "统一编码、全角/半角"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-57",
+    "query": "电子 PDF 用 Pypdf 会出现什么问题？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "文本乱序",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [
+      "大量文本乱序"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "rag"
+    ]
+  },
+  {
+    "case_id": "bagu-a-58",
+    "query": "ReAct 系统提示词要求输出 Action 后怎样？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "立即停止生成",
+    "expected_source": [
+      "MCP.md"
+    ],
+    "supporting_passage": [
+      "输出Action后立即停止生成"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "MCP.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-59",
+    "query": "为什么有些推理模型不支持 Function Calling/MCP？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "思考链是一次性连续生成的，不能中途打断",
+    "expected_source": [
+      "MCP.md"
+    ],
+    "supporting_passage": [
+      "不能中途打断"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "MCP.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "mcp"
+    ]
+  },
+  {
+    "case_id": "bagu-a-60",
+    "query": "用户对话中频繁切换话题怎么办？",
+    "case_type": "answerable",
+    "expected_behavior": "answer",
+    "expected_answer": "开启新的对话窗口",
+    "expected_source": [
+      "Memory.md"
+    ],
+    "supporting_passage": [
+      "引导用户开启新的对话窗口"
+    ],
+    "relevant_chunks": [
+      {
+        "doc_id": "Memory.md",
+        "label": 2
+      }
+    ],
+    "tags": [
+      "memory"
+    ]
+  },
+  {
+    "case_id": "bagu-u-01",
+    "query": "Java 泛型是在哪个版本加入的？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-02",
+    "query": "OpenAI 2024 年营收是多少？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-03",
+    "query": "火星工厂现在有多少员工？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-04",
+    "query": "Spring Boot 默认端口是多少？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-05",
+    "query": "HashMap 的默认负载因子是多少？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-06",
+    "query": "JVM 年轻代默认比例是多少？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-07",
+    "query": "今天北京的气温是多少？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-08",
+    "query": "比特币此刻的价格是多少美元？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-09",
+    "query": "本公司 CEO 年薪是多少？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-10",
+    "query": "PostgreSQL 最新大版本号是多少？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-11",
+    "query": "Kubernetes 1.31 发布日期是哪天？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-12",
+    "query": "我的钱包私钥是什么？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-13",
+    "query": "明天上证指数会涨还是跌？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-14",
+    "query": "React 19 的发布时间是哪天？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-u-15",
+    "query": "这台机器的 root 密码是什么？",
+    "case_type": "unanswerable",
+    "expected_behavior": "refuse",
+    "expected_answer": "",
+    "expected_source": [],
+    "supporting_passage": [],
+    "relevant_chunks": [],
+    "tags": [
+      "ood"
+    ]
+  },
+  {
+    "case_id": "bagu-m-01",
+    "query": "那个模型应该怎么选？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "LLM.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "LLM.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-02",
+    "query": "记忆是指哪一层？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-03",
+    "query": "Agent 怎么做？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-04",
+    "query": "这个工具该怎么接？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-05",
+    "query": "传输方式用哪一种？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "MCP.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "MCP.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-06",
+    "query": "向量数据库选哪个？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-07",
+    "query": "做成单 Agent 还是多 Agent？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "Multi-Agent.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "Multi-Agent.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-08",
+    "query": "上下文满了怎么办，具体截多少轮？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "Memory.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "Memory.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-09",
+    "query": "分块大小设多少合适？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "RAG.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "RAG.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "bagu-m-10",
+    "query": "安全校验要做到哪一层？",
+    "case_type": "ambiguous",
+    "expected_behavior": "clarify",
+    "expected_answer": "",
+    "expected_source": [
+      "Agent.md"
+    ],
+    "supporting_passage": [],
+    "relevant_chunks": [
+      {
+        "doc_id": "Agent.md",
+        "label": 1
+      }
+    ],
+    "tags": [
+      "ambiguous",
+      "ambiguous"
+    ]
+  }
+]

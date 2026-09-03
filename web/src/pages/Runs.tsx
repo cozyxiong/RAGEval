@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api, type CaseResult, type Dataset, type Run, type Version } from "../api";
+import { CAUSE_LABEL, RV_LABEL, STATUS_LABEL, pct, shortId } from "../copy";
+import { PageHead } from "../Layout";
 
 const EMPTY_RV = {
   kb: "mock-kb",
@@ -33,12 +35,12 @@ export default function RunsPage() {
       all.push(...(await api.listVersions(d.id)));
     }
     setVersions(all);
-    if (!vid && all[0]) setVid(all[0].id);
+    const confirmed = all.find((v) => v.confirmed_at) || all[0];
+    if (!vid && confirmed) setVid(confirmed.id);
   }
   useEffect(() => {
     load().catch((e) => setMsg(String(e)));
   }, [id]);
-
   useEffect(() => {
     const running = runs.find((r) => r.status === "RUNNING" || r.status === "PENDING");
     if (!running) return;
@@ -57,33 +59,38 @@ export default function RunsPage() {
 
   return (
     <div>
-      <h1>Runs</h1>
+      <PageHead
+        kicker="③ 开始评测"
+        title="提交后，后台会一题一题去问"
+        lead="每次只改一个变量（比如提示词或检索），才能判断「到底是哪一处改好了还是改坏了」。点 Start 排队，不要在网页里同步跑全集。"
+      />
       <div className="card">
-        <h2>rag_version</h2>
+        <h2>这一轮改了什么 · rag_version</h2>
+        <p className="hint">只填你真正动过的那一格，其余保持和上次一样。</p>
         <div className="grid">
           {Object.entries(rv).map(([k, v]) => (
             <label key={k}>
-              {k}
+              {RV_LABEL[k] || k}
               <input value={v} onChange={(e) => setRv({ ...rv, [k]: e.target.value })} />
             </label>
           ))}
         </div>
         <div className="row" style={{ marginTop: 12 }}>
           <label>
-            dataset version
+            用哪套已锁定的题
             <select value={vid} onChange={(e) => setVid(e.target.value)}>
               {versions.map((v) => (
                 <option key={v.id} value={v.id}>
-                  v{v.version} {v.confirmed_at ? "confirmed" : "draft"} ({v.case_count})
+                  第 {v.version} 版 {v.confirmed_at ? "已 Confirm" : "草稿不可考"} · {v.case_count} 题
                 </option>
               ))}
             </select>
           </label>
           <label>
-            use_as_gate
+            未校准不许当门槛
             <select value={gate ? "1" : "0"} onChange={(e) => setGate(e.target.value === "1")}>
-              <option value="0">false</option>
-              <option value="1">true</option>
+              <option value="0">先跑着看（推荐）</option>
+              <option value="1">use_as_gate = 必须已校准</option>
             </select>
           </label>
           <button
@@ -95,7 +102,7 @@ export default function RunsPage() {
                   rag_version: rv,
                   use_as_gate: gate,
                 });
-                setMsg(`Start 已提交 ${run.id} status=${run.status}`);
+                setMsg(`Start 已提交 ${run.id.slice(0, 8)}，正在排队。`);
                 await load();
               } catch (e) {
                 setMsg(String(e));
@@ -106,39 +113,43 @@ export default function RunsPage() {
           </button>
         </div>
       </div>
-      {runs.map((r) => (
-        <div className="card" key={r.id}>
-          <div className="row">
-            <strong>{r.id.slice(0, 8)}</strong>
-            <span className="chip">{r.status}</span>
-            <span>
-              进度 {r.done}/{r.total} pass={r.pass_count}
-            </span>
-            <Link to={`/projects/${id}/report?run=${r.id}`}>报告</Link>
-            <button className="ghost" onClick={() => openFails(r)}>
-              fail 列表
-            </button>
-            {(r.status === "PENDING" || r.status === "RUNNING") && (
-              <button className="secondary" onClick={() => api.cancelRun(r.id).then(load)}>
-                Cancel
+      {runs.map((r) => {
+        const rate = r.total ? r.pass_count / r.total : 0;
+        return (
+          <div className="card" key={r.id}>
+            <div className="row">
+              <strong>{shortId(r.id)}</strong>
+              <span className="chip">{STATUS_LABEL[r.status] || r.status}</span>
+              <span>
+                进度 {r.done}/{r.total} · 过关 {r.pass_count} 题（{pct(rate)}）
+              </span>
+              <Link to={`/projects/${id}/report?run=${r.id}`}>看成绩</Link>
+              <button className="ghost" onClick={() => openFails(r)}>
+                fail 列表
               </button>
-            )}
+              {(r.status === "PENDING" || r.status === "RUNNING") && (
+                <button className="secondary" onClick={() => api.cancelRun(r.id).then(load)}>
+                  停掉
+                </button>
+              )}
+            </div>
+            <div className="progress">
+              <div style={{ width: `${r.total ? (100 * r.done) / r.total : 0}%` }} />
+            </div>
+            <p className="hint">提示词 {r.rag_version?.prompt || "—"} · 检索 {r.rag_version?.retrieval || "—"}</p>
           </div>
-          <div className="progress">
-            <div style={{ width: `${r.total ? (100 * r.done) / r.total : 0}%` }} />
-          </div>
-        </div>
-      ))}
+        );
+      })}
       {selected && (
         <div className="card">
-          <h2>fail 列表 · {selected.id.slice(0, 8)}</h2>
+          <h2>没过关的题 · fail 列表</h2>
           <table>
             <thead>
               <tr>
-                <th>case</th>
-                <th>behavior</th>
-                <th>cause</th>
-                <th>answer</th>
+                <th>题号</th>
+                <th>系统实际表现</th>
+                <th>主要原因</th>
+                <th>它怎么答的</th>
               </tr>
             </thead>
             <tbody>
@@ -146,15 +157,15 @@ export default function RunsPage() {
                 <tr key={c.case_id}>
                   <td>{c.case_id}</td>
                   <td>{c.evaluated_behavior}</td>
-                  <td>{c.primary_cause}</td>
-                  <td>{c.actual_answer}</td>
+                  <td>{CAUSE_LABEL[c.primary_cause || ""] || c.primary_cause}</td>
+                  <td>{(c.actual_answer || "").slice(0, 160)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
-      {msg && <p className="muted">{msg}</p>}
+      {msg && <p className={msg.startsWith("Start") ? "muted" : "err"}>{msg}</p>}
     </div>
   );
 }

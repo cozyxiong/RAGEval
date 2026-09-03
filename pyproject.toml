@@ -29,6 +29,9 @@ dev = [
 [tool.setuptools.packages.find]
 include = ["core*", "api*", "workers*", "adapters*"]
 
+[tool.setuptools.package-data]
+api = ["gold_bagullm.json"]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
