@@ -73,6 +73,20 @@ npm run dev
 
 健康检查：`GET {adapter_url}/health`。接入 BaGuLLM 时，若它还不会说 `/eval/rag`，加一层薄包装，不要另写一套评测语义。
 
+### 接入 BaGuLLM
+
+BaGuLLM 走 AnythingLLM 的 `POST /api/v1/workspace/{slug}/chat`。本仓库提供包装进程，把该接口映射成评测合同：
+
+```powershell
+$env:BAGULLM_BASE_URL="http://127.0.0.1:3001"
+$env:BAGULLM_API_KEY="你的 BaGuLLM API Key"
+$env:BAGULLM_WORKSPACE="java"
+$env:BAGULLM_CHAT_MODE="query"
+.\.venv\Scripts\python.exe -m adapters.bagullm
+```
+
+包装监听 `:8101`。在 Web 里把项目 Adapter 填 `http://127.0.0.1:8101`，Ping 成功后即可 Confirm 集并跑批。评测公式仍只走 `core/`。
+
 ## Web 五页
 
 1. 项目：创建、Adapter、Ping、Spec
