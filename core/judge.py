@@ -91,6 +91,111 @@ def _detect_behavior(answer: str) -> str:
     return "answer"
 
 
+_LATIN_WORD = re.compile(r"[A-Za-z0-9]+")
+_CJK_RUN = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]+")
+_CONTENT_STOP = frozenset(
+    {
+        "哪",
+        "里",
+        "儿",
+        "吗",
+        "呢",
+        "谁",
+        "何",
+        "几",
+        "啊",
+        "吧",
+        "么",
+        "呀",
+        "的",
+        "了",
+        "是",
+        "有",
+        "和",
+        "与",
+        "或",
+        "也",
+        "都",
+        "吗呢",
+        "哪里",
+        "哪儿",
+        "什么",
+        "怎么",
+        "如何",
+        "多少",
+        "为何",
+        "为什么",
+        "是否",
+        "可否",
+        "哪个",
+        "哪些",
+        "怎样",
+        "在哪",
+        "什么样",
+        "what",
+        "where",
+        "when",
+        "who",
+        "whom",
+        "which",
+        "how",
+        "why",
+        "is",
+        "are",
+        "was",
+        "were",
+        "the",
+        "a",
+        "an",
+        "of",
+        "in",
+        "on",
+        "at",
+        "to",
+        "for",
+        "does",
+        "do",
+        "did",
+        "please",
+    }
+)
+
+
+def _content_tokens(text: str) -> list[str]:
+    """Latin words plus CJK bigrams. ``re.split(\\W+)`` keeps a CJK clause as one token
+    and cannot score 总部在哪里 against 总部在新加坡.
+    """
+    if not text:
+        return []
+    raw = text.lower()
+    tokens: list[str] = []
+    for match in _LATIN_WORD.finditer(raw):
+        word = match.group(0)
+        if len(word) >= 2 and word not in _CONTENT_STOP:
+            tokens.append(word)
+    for match in _CJK_RUN.finditer(raw):
+        run = match.group(0)
+        if len(run) == 1:
+            if run not in _CONTENT_STOP:
+                tokens.append(run)
+            continue
+        for i in range(len(run) - 1):
+            bigram = run[i : i + 2]
+            if bigram not in _CONTENT_STOP:
+                tokens.append(bigram)
+    return tokens
+
+
+def _token_overlap(query: str, haystack: str) -> float:
+    q_tokens = _content_tokens(query)
+    if not q_tokens:
+        return 0.5
+    h_tokens = set(_content_tokens(haystack))
+    h_lower = haystack.lower()
+    hits = sum(1 for tok in q_tokens if tok in h_tokens or tok in h_lower)
+    return min(1.0, max(0.0, hits / len(q_tokens)))
+
+
 def _split_claims(answer: str) -> list[str]:
     parts = re.split(r"[。；;.\n]+", answer)
     return [p.strip() for p in parts if p.strip()]
@@ -100,11 +205,13 @@ def _supported(claim: str, chunks: Sequence[dict[str, Any]]) -> bool:
     blob = " ".join(str(c.get("text") or "") for c in chunks)
     if not blob:
         return False
-    tokens = [t for t in re.split(r"\s+", claim) if len(t) >= 2]
+    tokens = _content_tokens(claim)
     if not tokens:
-        return claim in blob
-    hits = sum(1 for t in tokens if t.lower() in blob.lower())
-    return hits >= max(1, len(tokens) // 3)
+        return claim.lower() in blob.lower()
+    blob_l = blob.lower()
+    blob_tokens = set(_content_tokens(blob))
+    hits = sum(1 for tok in tokens if tok in blob_tokens or tok in blob_l)
+    return hits >= max(1, (len(tokens) + 2) // 3)
 
 
 def _expected_points(expected_answer: str) -> list[str]:
@@ -144,12 +251,11 @@ def heuristic_judge(
     elif behavior == "clarify":
         relevancy = 1.0 if expected_behavior == "clarify" else 0.4
     else:
-        q_tokens = [t for t in re.split(r"\W+", query.lower()) if len(t) >= 2]
-        if not q_tokens:
-            relevancy = 0.5
+        expected = (expected_answer or "").strip()
+        if expected and expected.lower() in actual_answer.lower():
+            relevancy = 1.0
         else:
-            relevancy = sum(1 for t in q_tokens if t in actual_answer.lower()) / len(q_tokens)
-            relevancy = min(1.0, max(0.0, relevancy))
+            relevancy = _token_overlap(query, actual_answer)
     return {
         "evaluated_behavior": behavior,
         "claims": claims,

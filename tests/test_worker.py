@@ -44,6 +44,13 @@ def test_worker_completes_pending_mock_run(
     assert len(cases) == 3
     ids = {c["case_id"] for c in cases}
     assert ids == {"g-1", "g-2", "g-3"}
+    by_id = {c["case_id"]: c for c in cases}
+    hq = by_id["g-1"]
+    assert hq["judge_label"] == "pass", (
+        f"Singapore HQ must pass default gates, got label={hq['judge_label']} "
+        f"relevancy={hq['answer_relevancy']} faith={hq['faithfulness']} "
+        f"complete={hq['completeness']} behavior={hq['evaluated_behavior']}"
+    )
     for c in cases:
         assert c["judge_label"] in {"pass", "fail"}
         assert c["error"] is None
