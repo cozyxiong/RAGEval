@@ -85,7 +85,7 @@ $env:BAGULLM_CHAT_MODE="query"
 .\.venv\Scripts\python.exe -m adapters.bagullm
 ```
 
-包装监听 `:8101`。当前名为 `java` 的工作区实际索引的是 AI 笔记（RAG.md / Agent.md / 基本概念.md），不是 Java 语言。黄金集必须按库里真实文档出题：
+包装监听 `:8101`。可用 `BAGULLM_PROMPT_PROFILE=closed-refuse-v2` 只改 prompt（一轮一变量）：要求无依据则拒答、含糊则澄清。当前名为 `java` 的工作区实际索引的是 AI 笔记（RAG.md / Agent.md / 基本概念.md），不是 Java 语言。黄金集必须按库里真实文档出题：
 
 ```powershell
 .\.venv\Scripts\python.exe -m api.seed_bagullm

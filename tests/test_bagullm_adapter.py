@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from adapters.bagullm import app as bagullm_app
-from adapters.bagullm import sources_to_chunks, strip_think
+from adapters.bagullm import sources_to_chunks, strip_think, wrap_query
 from core.spec import ALLOWED_META_KEYS
 
 
@@ -35,6 +35,16 @@ def test_sources_to_chunks_maps_anythingllm_shape() -> None:
     for ch in chunks:
         for key in ("chunk_id", "doc_id", "text", "rank", "score"):
             assert key in ch
+
+
+def test_wrap_query_closed_refuse_is_single_prompt_variable() -> None:
+    q = "火星工厂现在有多少员工？"
+    assert wrap_query(q, "plain") == q
+    wrapped = wrap_query(q, "closed-refuse-v2")
+    assert wrapped.startswith("【评测约束】")
+    assert wrapped.endswith(q)
+    assert "明确拒绝" in wrapped
+    assert "追问澄清" in wrapped
 
 
 def test_strip_think_keeps_visible_answer() -> None:

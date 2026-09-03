@@ -22,13 +22,36 @@ DEFAULT_BASE = "http://127.0.0.1:3001"
 DEFAULT_WORKSPACE = "java"
 
 
+CLOSED_REFUSE_V2 = (
+    "【评测约束】你是 Closed-domain RAG。只能依据本次检索到的资料回答。\n"
+    "- 资料足以支撑：直接回答。\n"
+    "- 资料无法支撑：明确拒绝，不要用世界知识猜测。\n"
+    "- 问题含糊、有多种理解：先追问澄清，不要擅自选定一种理解。\n\n"
+    "用户问题：\n"
+)
+
+PROMPT_PROFILES = {
+    "plain": "",
+    "closed-v1": "",
+    "closed-refuse-v2": CLOSED_REFUSE_V2,
+}
+
+
 def settings() -> dict[str, str]:
     return {
         "base_url": os.environ.get("BAGULLM_BASE_URL", DEFAULT_BASE).rstrip("/"),
         "api_key": os.environ.get("BAGULLM_API_KEY", "").strip(),
         "workspace": os.environ.get("BAGULLM_WORKSPACE", DEFAULT_WORKSPACE).strip() or DEFAULT_WORKSPACE,
         "mode": os.environ.get("BAGULLM_CHAT_MODE", "query").strip() or "query",
+        "prompt_profile": os.environ.get("BAGULLM_PROMPT_PROFILE", "plain").strip() or "plain",
     }
+
+
+def wrap_query(query: str, profile: str) -> str:
+    prefix = PROMPT_PROFILES.get(profile, "")
+    if not prefix:
+        return query
+    return prefix + query
 
 
 _THINK_BLOCK = re.compile(r"<think>.*?</think>", re.DOTALL | re.IGNORECASE)
@@ -93,6 +116,7 @@ def health() -> dict[str, Any]:
         "ok": True,
         "adapter": "bagullm",
         "workspace": cfg["workspace"],
+        "prompt_profile": cfg["prompt_profile"],
         "upstream": body,
     }
 
@@ -104,12 +128,13 @@ def eval_rag(req: EvalRequest) -> dict[str, Any]:
         raise HTTPException(500, "BAGULLM_API_KEY is not set")
     started = time.perf_counter()
     url = f"{cfg['base_url']}/api/v1/workspace/{cfg['workspace']}/chat"
+    message = wrap_query(req.query, cfg["prompt_profile"])
     try:
         with httpx.Client(timeout=120.0) as client:
             resp = client.post(
                 url,
                 headers=_headers(cfg["api_key"]),
-                json={"message": req.query, "mode": cfg["mode"]},
+                json={"message": message, "mode": cfg["mode"]},
             )
             if resp.status_code >= 400:
                 raise HTTPException(502, f"BaGuLLM chat {resp.status_code}: {resp.text[:500]}")
