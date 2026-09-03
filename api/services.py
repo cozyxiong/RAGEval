@@ -37,7 +37,7 @@ def get_or_create_judge_config(
         .order_by(JudgeConfig.id)
         .first()
     )
-    if existing and prompt_text is None:
+    if existing and not prompt_text:
         return existing
     spec = parse_spec(loads(project.spec_json, {}))
     text = prompt_text or JUDGE_SYSTEM_PROMPT

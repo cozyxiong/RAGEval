@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.db import init_db
-from api.routes import datasets, projects, runs
+from api.routes import datasets, experiments, judge_routes, projects, reports, runs
 
 
 @asynccontextmanager
@@ -26,6 +26,9 @@ def create_app() -> FastAPI:
     app.include_router(projects.router)
     app.include_router(datasets.router)
     app.include_router(runs.router)
+    app.include_router(judge_routes.router)
+    app.include_router(reports.router)
+    app.include_router(experiments.router)
 
     @app.get("/health")
     def health() -> dict:
