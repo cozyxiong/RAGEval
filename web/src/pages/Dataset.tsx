@@ -185,7 +185,7 @@ export default function DatasetPage() {
             新增一题
           </button>
           {id && (
-            <Link to={`/projects/${id}/runs`}>
+            <Link to={`/projects/${id}/runs/new`}>
               <button disabled={!current?.confirmed_at}>去开考</button>
             </Link>
           )}

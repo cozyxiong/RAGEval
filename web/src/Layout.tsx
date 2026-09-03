@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 
-const STEPS = [
-  { path: "", label: "系统", hint: "连接要评测的问答" },
-  { path: "dataset", label: "题库", hint: "确认后才能开考" },
-  { path: "runs", label: "评测", hint: "后台逐题打分" },
-  { path: "report", label: "报告", hint: "及格率与错因" },
-  { path: "calibration", label: "校准", hint: "核对机器打分" },
+const PROJECT_NAV = [
+  { path: "dataset", label: "题库" },
+  { path: "runs/new", label: "新建评测" },
+  { path: "runs", label: "评测历史" },
+  { path: "report", label: "报告" },
+  { path: "calibration", label: "校准" },
 ];
 
 export default function Shell({ children }: { children: ReactNode }) {
@@ -28,15 +28,15 @@ export default function Shell({ children }: { children: ReactNode }) {
         <nav className="side-nav">
           <div className="side-label">工作区</div>
           <NavLink to="/" end>
-            全部系统
+            历史系统
           </NavLink>
+          <NavLink to="/new">新建系统</NavLink>
           {pid && (
             <>
               <div className="side-label">当前系统</div>
-              {STEPS.filter((s) => s.path).map((s) => (
-                <NavLink key={s.path} to={`/projects/${pid}/${s.path}`}>
+              {PROJECT_NAV.map((s) => (
+                <NavLink key={s.path} to={`/projects/${pid}/${s.path}`} end={s.path === "runs"}>
                   {s.label}
-                  <em>{s.hint}</em>
                 </NavLink>
               ))}
             </>
@@ -47,17 +47,27 @@ export default function Shell({ children }: { children: ReactNode }) {
       <div className="main">
         {pid && (
           <ol className="steps">
-            {STEPS.map((s) => {
-              const href = s.path ? `/projects/${pid}/${s.path}` : "/";
-              const on = s.path
-                ? loc.pathname.includes(`/projects/${pid}/${s.path}`)
-                : loc.pathname === "/";
-              return (
-                <li key={s.label} className={on ? "on" : ""}>
-                  <NavLink to={href}>{s.label}</NavLink>
-                </li>
-              );
-            })}
+            {[
+              { href: `/projects/${pid}/dataset`, label: "题库", on: loc.pathname.includes("/dataset") },
+              { href: `/projects/${pid}/runs/new`, label: "新建", on: loc.pathname.endsWith("/runs/new") },
+              { href: `/projects/${pid}/runs`, label: "历史", on: loc.pathname.endsWith("/runs") },
+              { href: `/projects/${pid}/report`, label: "报告", on: loc.pathname.includes("/report") },
+              { href: `/projects/${pid}/calibration`, label: "校准", on: loc.pathname.includes("/calibration") },
+            ].map((s) => (
+              <li key={s.label} className={s.on ? "on" : ""}>
+                <NavLink to={s.href}>{s.label}</NavLink>
+              </li>
+            ))}
+          </ol>
+        )}
+        {!pid && (
+          <ol className="steps">
+            <li className={loc.pathname === "/" ? "on" : ""}>
+              <NavLink to="/">历史</NavLink>
+            </li>
+            <li className={loc.pathname === "/new" ? "on" : ""}>
+              <NavLink to="/new">新建</NavLink>
+            </li>
           </ol>
         )}
         {children}

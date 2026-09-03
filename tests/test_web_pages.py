@@ -10,10 +10,10 @@ def _read(*parts: str) -> str:
 
 
 def test_five_pages_exist_with_spec_actions() -> None:
-    projects = _read("pages", "Projects.tsx")
+    projects = _read("pages", "Projects.tsx") + _read("pages", "ProjectCreate.tsx")
     dataset = _read("pages", "Dataset.tsx")
     calibration = _read("pages", "Calibration.tsx")
-    runs = _read("pages", "Runs.tsx")
+    runs = _read("pages", "Runs.tsx") + _read("pages", "RunCreate.tsx")
     report = _read("pages", "Report.tsx")
     api = _read("api.ts")
 

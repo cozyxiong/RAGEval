@@ -3,18 +3,8 @@ import { Link } from "react-router-dom";
 import { api, type Project } from "../api";
 import { PageHead } from "../Layout";
 
-const DEFAULT_SPEC = {
-  product_mode: "closed_domain",
-  retrieval_level: 1,
-  k: 8,
-  pass_gate: { behavior: true, faithfulness: 0.85, completeness: 0.75, relevancy: 0.85 },
-};
-
 export default function ProjectsPage() {
   const [rows, setRows] = useState<Project[]>([]);
-  const [name, setName] = useState("");
-  const [adapter, setAdapter] = useState("http://127.0.0.1:8100");
-  const [specText, setSpecText] = useState(JSON.stringify(DEFAULT_SPEC, null, 2));
   const [msg, setMsg] = useState("");
   const [ping, setPing] = useState("");
 
@@ -22,17 +12,6 @@ export default function ProjectsPage() {
   useEffect(() => {
     load();
   }, []);
-
-  async function create() {
-    setMsg("");
-    try {
-      await api.createProject({ name: name || "未命名系统", adapter_url: adapter, spec: JSON.parse(specText) });
-      setName("");
-      await load();
-    } catch (e) {
-      setMsg(String(e));
-    }
-  }
 
   async function save(p: Project) {
     try {
@@ -57,30 +36,20 @@ export default function ProjectsPage() {
   return (
     <div>
       <PageHead
-        kicker="① 连接系统"
-        title="你要给哪套问答打分？"
-        lead="把已经开发好的 RAG 接口填进来。平台不会改它，只按同一套考题逐题提问并打分。"
+        kicker="历史"
+        title="已接入的系统"
+        lead="这里是以前接过的问答系统。要考新系统，去新建页填写接口。"
       />
-      <div className="card">
-        <h2>接入一套新系统</h2>
-        <div className="row">
-          <label>
-            系统名称
-            <input placeholder="例如：BaGuLLM 知识库" value={name} onChange={(e) => setName(e.target.value)} />
-          </label>
-          <label>
-            Adapter 问答接口地址
-            <input value={adapter} onChange={(e) => setAdapter(e.target.value)} />
-          </label>
-          <button onClick={create}>创建</button>
-        </div>
-        <p className="hint">Mock 演示填 http://127.0.0.1:8100 ；BaGuLLM 填 http://127.0.0.1:8101 。</p>
-        <details className="advanced">
-          <summary>高级：Spec 打分门槛（一般不用改）</summary>
-          <textarea value={specText} onChange={(e) => setSpecText(e.target.value)} />
-        </details>
-        {msg && <p className="err">{msg}</p>}
+      <div className="row" style={{ marginBottom: 16 }}>
+        <Link to="/new">
+          <button>创建</button>
+        </Link>
       </div>
+      {rows.length === 0 && (
+        <div className="card">
+          <p className="hint">还没有历史记录。先创建一个系统。</p>
+        </div>
+      )}
       {rows.map((p) => (
         <div className="card sys-card" key={p.id}>
           <div>
@@ -120,11 +89,12 @@ export default function ProjectsPage() {
             </details>
           </div>
           <Link to={`/projects/${p.id}/dataset`}>
-            <button>去准备题目</button>
+            <button className="ghost">打开题库</button>
           </Link>
         </div>
       ))}
       {ping && <p className="muted">{ping}</p>}
+      {msg && <p className="muted">{msg}</p>}
     </div>
   );
 }
