@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from adapters.bagullm import app as bagullm_app
-from adapters.bagullm import sources_to_chunks
+from adapters.bagullm import sources_to_chunks, strip_think
 from core.spec import ALLOWED_META_KEYS
 
 
@@ -35,6 +35,12 @@ def test_sources_to_chunks_maps_anythingllm_shape() -> None:
     for ch in chunks:
         for key in ("chunk_id", "doc_id", "text", "rank", "score"):
             assert key in ch
+
+
+def test_strip_think_keeps_visible_answer() -> None:
+    raw = "<think>hidden</think>\nRAG 的全称是检索增强生成。"
+    assert "hidden" not in strip_think(raw)
+    assert "检索增强生成" in strip_think(raw)
 
 
 def test_eval_response_meta_keys_are_allowed() -> None:

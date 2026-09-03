@@ -85,7 +85,13 @@ $env:BAGULLM_CHAT_MODE="query"
 .\.venv\Scripts\python.exe -m adapters.bagullm
 ```
 
-包装监听 `:8101`。在 Web 里把项目 Adapter 填 `http://127.0.0.1:8101`，Ping 成功后即可 Confirm 集并跑批。评测公式仍只走 `core/`。
+包装监听 `:8101`。当前名为 `java` 的工作区实际索引的是 AI 笔记（RAG.md / Agent.md / 基本概念.md），不是 Java 语言。黄金集必须按库里真实文档出题：
+
+```powershell
+.\.venv\Scripts\python.exe -m api.seed_bagullm
+```
+
+Worker 会把新建的 PENDING Run 跑完。评测公式仍只走 `core/`。
 
 ## Web 五页
 

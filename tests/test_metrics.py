@@ -125,6 +125,20 @@ def test_level1_has_hits_and_no_recall() -> None:
     assert set(result) <= {"expected_source_hit", "passage_hit", "k"}
 
 
+def test_expected_source_hit_matches_filename_prefix() -> None:
+    chunks = [
+        {
+            "chunk_id": "c1",
+            "doc_id": "RAG.md · **1.** **什么是 RAG？**",
+            "text": "检索增强生成",
+            "rank": 1,
+            "score": 0.9,
+        }
+    ]
+    assert metrics.expected_source_hit(chunks, ["RAG.md"]) == 1
+    assert metrics.expected_source_hit(chunks, ["Agent.md"]) == 0
+
+
 def test_level2_hit_recall_precision_mrr_uses_min_k() -> None:
     spec = EvaluationSpec(retrieval_level=2, k=8)
     chunks = [

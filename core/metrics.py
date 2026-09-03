@@ -95,6 +95,17 @@ def _norm(text: str) -> str:
     return " ".join(text.lower().split())
 
 
+def _source_id_matches(value: str, wanted: set[str]) -> bool:
+    if not value:
+        return False
+    if value in wanted:
+        return True
+    for item in wanted:
+        if value.startswith(item + " ·") or value.startswith(item + "#") or value.startswith(item + "/"):
+            return True
+    return False
+
+
 def expected_source_hit(
     retrieved_chunks: Sequence[Chunk],
     expected_source: Sequence[str] | None,
@@ -107,7 +118,7 @@ def expected_source_hit(
     for chunk in retrieved_chunks:
         doc_id = str(chunk.get("doc_id") or "")
         chunk_id = str(chunk.get("chunk_id") or "")
-        if doc_id in wanted or chunk_id in wanted:
+        if _source_id_matches(doc_id, wanted) or _source_id_matches(chunk_id, wanted):
             return 1
     return 0
 

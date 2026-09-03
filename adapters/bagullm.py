@@ -7,12 +7,16 @@ layer — eval math still lives in core/.
 from __future__ import annotations
 
 import os
+import re
 import time
 from typing import Any
 
 import httpx
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
+load_dotenv()
 
 DEFAULT_BASE = "http://127.0.0.1:3001"
 DEFAULT_WORKSPACE = "java"
@@ -25,6 +29,14 @@ def settings() -> dict[str, str]:
         "workspace": os.environ.get("BAGULLM_WORKSPACE", DEFAULT_WORKSPACE).strip() or DEFAULT_WORKSPACE,
         "mode": os.environ.get("BAGULLM_CHAT_MODE", "query").strip() or "query",
     }
+
+
+_THINK_BLOCK = re.compile(r"<think>.*?</think>", re.DOTALL | re.IGNORECASE)
+
+
+def strip_think(text: str) -> str:
+    """Drop hidden chain-of-thought so Judge sees the user-facing answer only."""
+    return _THINK_BLOCK.sub("", text or "").strip()
 
 
 def sources_to_chunks(sources: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
@@ -107,7 +119,7 @@ def eval_rag(req: EvalRequest) -> dict[str, Any]:
     latency_ms = max(int((time.perf_counter() - started) * 1000), 1)
     if data.get("error") and not data.get("textResponse"):
         raise HTTPException(502, f"BaGuLLM error: {data.get('error')}")
-    answer = data.get("textResponse") or ""
+    answer = strip_think(str(data.get("textResponse") or ""))
     chunks = sources_to_chunks(data.get("sources") or [])
     return {
         "actual_answer": answer,
