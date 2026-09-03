@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.db import init_db
-from api.routes import projects
+from api.routes import datasets, projects, runs
 
 
 @asynccontextmanager
@@ -24,6 +24,8 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app.include_router(projects.router)
+    app.include_router(datasets.router)
+    app.include_router(runs.router)
 
     @app.get("/health")
     def health() -> dict:
