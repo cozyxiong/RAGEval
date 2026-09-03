@@ -2,11 +2,11 @@ import type { ReactNode } from "react";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 
 const STEPS = [
-  { path: "", label: "① 连接系统", hint: "告诉平台考哪套问答" },
-  { path: "dataset", label: "② 准备题目", hint: "题库确认后才能开考" },
-  { path: "runs", label: "③ 开始评测", hint: "提交后后台逐题打分" },
-  { path: "report", label: "④ 看成绩", hint: "及格率、错因、和上次对比" },
-  { path: "calibration", label: "人工复核", hint: "抽查看机器打分准不准" },
+  { path: "", label: "系统", hint: "连接要评测的问答" },
+  { path: "dataset", label: "题库", hint: "确认后才能开考" },
+  { path: "runs", label: "评测", hint: "后台逐题打分" },
+  { path: "report", label: "报告", hint: "及格率与错因" },
+  { path: "calibration", label: "校准", hint: "核对机器打分" },
 ];
 
 export default function Shell({ children }: { children: ReactNode }) {
@@ -19,27 +19,30 @@ export default function Shell({ children }: { children: ReactNode }) {
     <div className="app">
       <aside className="side">
         <NavLink to="/" className="brand">
-          <span className="logo">评</span>
+          <span className="logo">R</span>
           <div>
-            <strong>问答评测台</strong>
-            <small>给已上线的 RAG 打分</small>
+            <strong>RAG Eval</strong>
+            <small>问答评测</small>
           </div>
         </NavLink>
-        <p className="side-note">
-          不改对方系统。接上接口、准备考题、跑一轮，就能看到「答对了多少、错在检索还是胡编」。
-        </p>
         <nav className="side-nav">
+          <div className="side-label">工作区</div>
           <NavLink to="/" end>
             全部系统
           </NavLink>
-          {pid &&
-            STEPS.filter((s) => s.path).map((s) => (
-              <NavLink key={s.path} to={`/projects/${pid}/${s.path}`}>
-                {s.label}
-                <em>{s.hint}</em>
-              </NavLink>
-            ))}
+          {pid && (
+            <>
+              <div className="side-label">当前系统</div>
+              {STEPS.filter((s) => s.path).map((s) => (
+                <NavLink key={s.path} to={`/projects/${pid}/${s.path}`}>
+                  {s.label}
+                  <em>{s.hint}</em>
+                </NavLink>
+              ))}
+            </>
+          )}
         </nav>
+        <p className="side-note">不改对方系统。接上接口、准备考题、跑一轮，即可看到答对多少、错在检索还是胡编。</p>
       </aside>
       <div className="main">
         {pid && (
@@ -80,4 +83,3 @@ export function PageHead({
     </header>
   );
 }
-
